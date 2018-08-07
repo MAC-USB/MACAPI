@@ -60,8 +60,8 @@ class Preparador(models.Model):
 	"""
     cedula = models.IntegerField(primary_key=True)
     iniciales = models.CharField(default=None,max_length=3)
-    nombre = models.CharField()
-    correo = models.CharField()
+    nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+    correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
     cantidad_deuda = models.FloatField(default=0)
     fecha_deuda = models.DateTimeField(default=None)
 
@@ -77,7 +77,6 @@ class Bitacora(models.Model):
         cant_caja : Cantidad de dinero en la cuenta bancaria.
         fecha : fecha de la transaccion asociada que produjo un cambio.
 	"""
-    cant_efectivo = models.FloatField()
-    cant_caja = models.FloatField()
-    fecha_deuda = models.DateTimeField()
+    cant_efectivo = models.IntegerField()
+    cant_caja = models.IntegerField()
     id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
