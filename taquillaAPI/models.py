@@ -62,7 +62,7 @@ class Preparador(models.Model):
     iniciales = models.CharField(default=None,max_length=3)
     nombre = models.CharField()
     correo = models.CharField()
-    cantidad_deuda = models.IntegerField()
+    cantidad_deuda = models.FloatField(default=0)
     fecha_deuda = models.DateTimeField(default=None)
 
 class Bitacora(models.Model):
@@ -77,6 +77,7 @@ class Bitacora(models.Model):
         cant_caja : Cantidad de dinero en la cuenta bancaria.
         fecha : fecha de la transaccion asociada que produjo un cambio.
 	"""
-    cant_efectivo = models.IntegerField()
-    cant_caja = models.IntegerField()
+    cant_efectivo = models.FloatField()
+    cant_caja = models.FloatField()
+    fecha_deuda = models.DateTimeField()
     id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
