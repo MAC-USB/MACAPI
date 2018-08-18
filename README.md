@@ -1,1 +1,1 @@
-#Proyecto de Sistema de taquilla del MAC
+# Proyecto de Taquilla de MAC
