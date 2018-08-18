@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'SistemaTaquillaAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'SistemaTaquillaAPI',
+        'NAME': 'taquilladb',
         'USER': 'taquilla',
         'PASSWORD': 'taquilla',
-        'HOST': '159.90.9.40',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
 }
