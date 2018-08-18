@@ -15,7 +15,6 @@ class Articulo(models.Model):
 	precio = models.FloatField()
 	
 class Cliente(models.Model):
-
 	"""Consiste en la tabla de clientes.
 
 	Parametros:
@@ -102,8 +101,112 @@ class HistorialCuenta(models.Model):
 	"""
 	fecha = models.DateTimeField(primary_key=True)
 	cant_ideal_efectivo = models.FloatField()
+<<<<<<< HEAD
 	cant_ideal_caja = models.FloatField()
 	cant_real_efectivo = models.FloatField(default=0)
 	cant_real_caja = models.FloatField(default=0)
 	
     
+=======
+    cant_ideal_caja = models.FloatField()
+    cant_real_efectivo = models.FloatField(default=0)
+    cant_real_caja = models.FloatField(default=0)
+
+class PlataformaPago(models.Model):
+    """Consiste en la tabla de plataformas de pago usadas para una transaccion.
+
+	Parametros:
+		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+
+	Atributos de la clase:
+		nombre: La denominacion de la plataforma de pago.
+	"""
+	nombre = models.CharField()
+
+class Transaccion(models.Model):
+    """Consiste en la tabla de transacciones de taquilla.
+
+	Parametros:
+		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+
+	Atributos de la clase:
+		fecha  : Fecha del cierre de caja por el sistema.
+		monto  : Atributo derivado que indica el valor de la transaccion.
+		tipo   : Indica el tipo de la transaccion.
+	"""
+	fecha = models.DateTimeField()
+	monto = models.FloatField(default=None)
+	tipo = models.CharField()
+
+class Venta(models.Model):
+    """Se trata de una subclase de Transaccion, y consiste en las ventas por
+	taquilla.
+
+	Parametros:
+		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+
+	Atributos de la clase:
+		id_transaccion : Referencia a la tabla transaccion, su superclase.
+		articulo : Referencia al articulo solicitado.
+		cantidad_producto : Cantidad del producto solicitado.
+		tipoPago : Tipo de pago, transferencia o efectivo.
+		nro_confirmacion : numero de confirmacion, en caso de ser tranferencia.
+		plataforma_pago : Referencia a la plataforma de pago utilizada, de ser
+						  transferencia.
+		cliente : Referencia al cliente.
+		preparador : Referencia al preparador.
+		notas : Anotaciones referentes a la venta en particular.
+	"""
+	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
+	cantidad_producto = models.IntegerField(default=0)
+	articulo = models.ForeignKey(Articulo)
+	tipoPago = models.CharField()
+	nro_confirmacion = models.IntegerField(default=None)
+	plataforma_pago = models.ForeignKey(Banco, on_delete=models.CASCADE,default=None)
+	cliente = models.ForeignKey(Cliente)
+	preparador = models.ForeignKey(Preparador)
+	notas = models.CharField()
+
+class Deuda(models.Model):
+    """Se trata de una subclase de Transaccion, y consiste en el registro de deuda por
+	parte de los preparadores al adquirir algun producto.
+
+	Parametros:
+		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+
+	Atributos de la clase:
+		id_transaccion : Referencia a la tabla transaccion, su superclase.
+		articulo : Referencia al articulo solicitado.
+		cantidad_producto : Cantidad del producto solicitado.
+		preparador : Referencia al preparador.
+	"""
+	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
+	articulo = models.ForeignKey(Articulo)
+	cantidad_producto = models.IntegerField(default=0)
+	preparador = models.ForeignKey(Preparador)
+
+class PagoDeuda(models.Model):
+    """Se trata de una subclase de Transaccion, y consiste en pagos de la deuda
+	acumulada de un preparador.
+
+	Parametros:
+		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+
+	Atributos de la clase:
+		id_transaccion : Referencia a la tabla transaccion, su superclase.
+		montoDeuda : Cantidad del producto solicitado.
+		tipoPago : Tipo de pago, transferencia o efectivo.
+		nro_confirmacion : numero de confirmacion, en caso de ser tranferencia.
+		plataforma_pago : Referencia a la plataforma de pago utilizada, de ser
+						  transferencia.
+		fecha_pago : En caso de ser transferencia, fecha de realizacion de la misma.
+		preparador : Referencia al preparador.
+	"""
+	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
+	montoDeuda = models.FloatField(default=0)
+	tipoPago = models.CharField()
+	nro_confirmacion = models.IntegerField(default=None)
+	plataforma_pago = models.ForeignKey(Banco, on_delete=models.CASCADE, default=None)
+	fecha_pago = models.DateTimeField(default=None)
+	preparador = models.ForeignKey(Preparador)
+>>>>>>> 1710a244319954a9e9e69217b2779c6d14cc841b
