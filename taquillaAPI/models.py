@@ -62,16 +62,6 @@ class Preparador(models.Model):
         fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
         es None.
 	"""
-<<<<<<< HEAD
-	cedula = models.IntegerField(primary_key=True)
-
-	iniciales = models.CharField(default=None,max_length=3)
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
-	correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
-	cantidad_deuda = models.FloatField(default=0)
-	fecha_deuda = models.DateTimeField(default=None)
-=======
     cedula = models.IntegerField(primary_key=True)
     iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
     nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
@@ -79,7 +69,6 @@ class Preparador(models.Model):
     #correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
     cantidad_deuda = models.FloatField(default=0)
     fecha_deuda = models.DateTimeField(default=None)
->>>>>>> c1a244772534bbd7144c6ae4192132139500baca
 
 class HistorialCuenta(models.Model):
 	"""
@@ -101,13 +90,6 @@ class HistorialCuenta(models.Model):
 	"""
 	fecha = models.DateTimeField(primary_key=True)
 	cant_ideal_efectivo = models.FloatField()
-<<<<<<< HEAD
-	cant_ideal_caja = models.FloatField()
-	cant_real_efectivo = models.FloatField(default=0)
-	cant_real_caja = models.FloatField(default=0)
-	
-    
-=======
     cant_ideal_caja = models.FloatField()
     cant_real_efectivo = models.FloatField(default=0)
     cant_real_caja = models.FloatField(default=0)
@@ -209,4 +191,3 @@ class PagoDeuda(models.Model):
 	plataforma_pago = models.ForeignKey(Banco, on_delete=models.CASCADE, default=None)
 	fecha_pago = models.DateTimeField(default=None)
 	preparador = models.ForeignKey(Preparador)
->>>>>>> 1710a244319954a9e9e69217b2779c6d14cc841b
