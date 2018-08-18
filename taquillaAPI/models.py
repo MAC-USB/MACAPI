@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 class Articulo(models.Model):
 	""" Consiste en la tabla de las asignaturas.
@@ -26,10 +27,10 @@ class Cliente(models.Model):
 		apellido: El apellido del cliente.
 		telefono: El Telefono del cliente.
 	"""
-	cedula = models.IntegerField(primary_key=True)
-	nombre = models.CharField(max_length=50)
-	apellido = models.CharField(max_length=50)
-	telefono = models.CharField(max_length=15)
+	cedula = models.IntegerField(primary_key=True, validators=[RegexValidator(regex="/^[V|E|J|P][0-9]{5,9}$/",message="Cedula invalida")])
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Apellido invalido')])
+	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="/\(?([0-9]{4})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/",message='Telefono invalido')])
 
 class Interes(models.Model):
 	"""Consiste en la tabla de intereses.
@@ -45,7 +46,8 @@ class Interes(models.Model):
 	rango_dias = models.IntegerField()
 
 class Preparador(models.Model):
-    """
+
+	"""
     Tabla que almacena los preparadores activos o recurrentes.
 	
     Parametros:
@@ -59,18 +61,19 @@ class Preparador(models.Model):
         correo : Correo asociado.
         cantidad_deuda : Cantidad de deuda acumulada.
         fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
-                      es None.
+        es None.
 	"""
-    cedula = models.IntegerField(primary_key=True)
-    iniciales = models.CharField(default=None,max_length=3)
-    nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-    correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
-    cantidad_deuda = models.FloatField(default=0)
-    fecha_deuda = models.DateTimeField(default=None)
+	cedula = models.IntegerField(primary_key=True)
+
+	iniciales = models.CharField(default=None,max_length=3)
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
+	correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
+	cantidad_deuda = models.FloatField(default=0)
+	fecha_deuda = models.DateTimeField(default=None)
 
 class HistorialCuenta(models.Model):
-    """
+	"""
     Tabla que almacena los preparadores activos o recurrentes.
 	
     Parametros:
@@ -89,8 +92,8 @@ class HistorialCuenta(models.Model):
 	"""
 	fecha = models.DateTimeField(primary_key=True)
 	cant_ideal_efectivo = models.FloatField()
-    cant_ideal_caja = models.FloatField()
-    cant_real_efectivo = models.FloatField(default=0)
-    cant_real_caja = models.FloatField(default=0)
+	cant_ideal_caja = models.FloatField()
+	cant_real_efectivo = models.FloatField(default=0)
+	cant_real_caja = models.FloatField(default=0)
 	
     
