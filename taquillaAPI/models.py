@@ -23,10 +23,12 @@ class Cliente(models.Model):
 	Atributos de la clase:
 		cedula: La cedula del cliente.
 		nombre: El nombre del cliente.
+		apellido: El apellido del cliente.
 		telefono: El Telefono del cliente.
 	"""
 	cedula = models.IntegerField(primary_key=True)
 	nombre = models.CharField(max_length=50)
+	apellido = models.CharField(max_length=50)
 	telefono = models.CharField(max_length=15)
 
 class Interes(models.Model):
@@ -52,7 +54,8 @@ class Preparador(models.Model):
     Atributos de la clase: 
 		cedula : Cedula de identidad del preparador.
         iniciales : Iniciales del preparador, de tenerlas.
-        nombre : Nombre completo del preparador.
+        nombre : Nombre del preparador.
+		apellido : apellido del preparador.
         correo : Correo asociado.
         cantidad_deuda : Cantidad de deuda acumulada.
         fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
@@ -61,11 +64,12 @@ class Preparador(models.Model):
     cedula = models.IntegerField(primary_key=True)
     iniciales = models.CharField(default=None,max_length=3)
     nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
     correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
     cantidad_deuda = models.FloatField(default=0)
     fecha_deuda = models.DateTimeField(default=None)
 
-class Bitacora(models.Model):
+class HistorialCuenta(models.Model):
     """
     Tabla que almacena los preparadores activos o recurrentes.
 	
@@ -73,10 +77,20 @@ class Bitacora(models.Model):
 		models.Model (Coordinacion): es la instancia sobre la que se crea la tabla.
 	
     Atributos de la clase: 
-		cant_efectivo : Cantidad de dinero en efectivo en caja.
-        cant_caja : Cantidad de dinero en la cuenta bancaria.
+		fecha  : Clave primaria. Fecha del cierre de caja por el sistema.
+		cant_ideal_efectivo  :  Cantidad en efectivo calculada por el sistema a partir
+								de las ventas de la fecha.
+		cant_ideal_caja  :  Cantidad en banco calculada por el sistema a partir
+							de las ventas de la fecha.
+		cant_ideal_efectivo  :  Cantidad en efectivo indicada por el preparador en
+								la fecha.
+		cant_ideal_caja  :  Cantidad en banco indicada por el preparador en la fecha.
         fecha : fecha de la transaccion asociada que produjo un cambio.
 	"""
-    cant_efectivo = models.IntegerField()
-    cant_caja = models.IntegerField()
-    id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
+	fecha = models.DateTimeField(primary_key=True)
+	cant_ideal_efectivo = models.FloatField()
+    cant_ideal_caja = models.FloatField()
+    cant_real_efectivo = models.FloatField(default=0)
+    cant_real_caja = models.FloatField(default=0)
+	
+    
