@@ -61,10 +61,10 @@ class Preparador(models.Model):
                       es None.
 	"""
     cedula = models.IntegerField(primary_key=True)
-    iniciales = models.CharField(default=None,max_length=3)
+    iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
     nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-    correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
+    #correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
     cantidad_deuda = models.FloatField(default=0)
     fecha_deuda = models.DateTimeField(default=None)
 
