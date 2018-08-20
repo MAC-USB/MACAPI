@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 
 class Articulo(models.Model):
-	""" Consiste en la tabla de las asignaturas.
+	"""
+	Consiste en la tabla de las asignaturas.
 
 	Parametros:
 		models.Model (Articulo): es la instancia sobre la que se crea la tabla.
@@ -15,7 +16,8 @@ class Articulo(models.Model):
 	precio = models.FloatField()
 	
 class Cliente(models.Model):
-	"""Consiste en la tabla de clientes.
+	"""
+	Consiste en la tabla de clientes.
 
 	Parametros:
 		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
@@ -32,7 +34,8 @@ class Cliente(models.Model):
 	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="/\(?([0-9]{4})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/",message='Telefono invalido')])
 
 class Interes(models.Model):
-	"""Consiste en la tabla de intereses.
+	"""
+	Consiste en la tabla de intereses.
 
 	Parametros:
 		models.Model (Interes): es la instancia sobre la que se crea la tabla.
@@ -45,7 +48,6 @@ class Interes(models.Model):
 	rango_dias = models.IntegerField()
 
 class Preparador(models.Model):
-
 	"""
     Tabla que almacena los preparadores activos o recurrentes.
 	
@@ -62,13 +64,13 @@ class Preparador(models.Model):
         fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
         es None.
 	"""
-    cedula = models.IntegerField(primary_key=True)
-    iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
-    nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+	cedula = models.IntegerField(primary_key=True)
+	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-    #correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
-    cantidad_deuda = models.FloatField(default=0)
-    fecha_deuda = models.DateTimeField(default=None)
+	#correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
+	cantidad_deuda = models.FloatField(default=0)
+	fecha_deuda = models.DateTimeField(default=None)
 
 class HistorialCuenta(models.Model):
 	"""
@@ -90,12 +92,13 @@ class HistorialCuenta(models.Model):
 	"""
 	fecha = models.DateTimeField(primary_key=True)
 	cant_ideal_efectivo = models.FloatField()
-    cant_ideal_caja = models.FloatField()
-    cant_real_efectivo = models.FloatField(default=0)
-    cant_real_caja = models.FloatField(default=0)
+	cant_ideal_caja = models.FloatField()
+	cant_real_efectivo = models.FloatField(default=0)
+	cant_real_caja = models.FloatField(default=0)
 
 class PlataformaPago(models.Model):
-    """Consiste en la tabla de plataformas de pago usadas para una transaccion.
+	"""
+	Consiste en la tabla de plataformas de pago usadas para una transaccion.
 
 	Parametros:
 		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
@@ -103,10 +106,12 @@ class PlataformaPago(models.Model):
 	Atributos de la clase:
 		nombre: La denominacion de la plataforma de pago.
 	"""
-	nombre = models.CharField()
+	nombre = models.CharField(max_length=30)
+
 
 class Transaccion(models.Model):
-    """Consiste en la tabla de transacciones de taquilla.
+	"""
+	Consiste en la tabla de transacciones de taquilla.
 
 	Parametros:
 		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
@@ -118,10 +123,11 @@ class Transaccion(models.Model):
 	"""
 	fecha = models.DateTimeField()
 	monto = models.FloatField(default=None)
-	tipo = models.CharField()
+	tipo = models.CharField(max_length=30)
 
 class Venta(models.Model):
-    """Se trata de una subclase de Transaccion, y consiste en las ventas por
+	"""
+	Se trata de una subclase de Transaccion, y consiste en las ventas por
 	taquilla.
 
 	Parametros:
@@ -137,20 +143,21 @@ class Venta(models.Model):
 						  transferencia.
 		cliente : Referencia al cliente.
 		preparador : Referencia al preparador.
-		notas : Anotaciones referentes a la venta en particular.
+		notas : Anotaciones referentes a la venta en particular (en discusion).
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 	cantidad_producto = models.IntegerField(default=0)
-	articulo = models.ForeignKey(Articulo)
-	tipoPago = models.CharField()
+	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
+	tipoPago = models.CharField(max_length=30)
 	nro_confirmacion = models.IntegerField(default=None)
-	plataforma_pago = models.ForeignKey(Banco, on_delete=models.CASCADE,default=None)
-	cliente = models.ForeignKey(Cliente)
-	preparador = models.ForeignKey(Preparador)
-	notas = models.CharField()
+	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE,default=None)
+	cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
+	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
+	#notas = models.CharField(max_length=60)
 
 class Deuda(models.Model):
-    """Se trata de una subclase de Transaccion, y consiste en el registro de deuda por
+	"""
+	Se trata de una subclase de Transaccion, y consiste en el registro de deuda por
 	parte de los preparadores al adquirir algun producto.
 
 	Parametros:
@@ -163,12 +170,13 @@ class Deuda(models.Model):
 		preparador : Referencia al preparador.
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-	articulo = models.ForeignKey(Articulo)
+	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
 	cantidad_producto = models.IntegerField(default=0)
-	preparador = models.ForeignKey(Preparador)
+	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
 
 class PagoDeuda(models.Model):
-    """Se trata de una subclase de Transaccion, y consiste en pagos de la deuda
+	"""
+	Se trata de una subclase de Transaccion, y consiste en pagos de la deuda
 	acumulada de un preparador.
 
 	Parametros:
@@ -186,8 +194,8 @@ class PagoDeuda(models.Model):
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 	montoDeuda = models.FloatField(default=0)
-	tipoPago = models.CharField()
+	tipoPago = models.CharField(max_length=30)
 	nro_confirmacion = models.IntegerField(default=None)
-	plataforma_pago = models.ForeignKey(Banco, on_delete=models.CASCADE, default=None)
+	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE, default=None)
 	fecha_pago = models.DateTimeField(default=None)
-	preparador = models.ForeignKey(Preparador)
+	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
