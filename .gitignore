@@ -75,6 +75,7 @@ target/
 *.pyc
 __pycache__/
 local_settings.py
+taquillaAPI/migrations
 
 .env
 db.sqlite3
