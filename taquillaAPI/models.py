@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 class Articulo(models.Model):
 	"""
@@ -28,10 +29,10 @@ class Cliente(models.Model):
 		apellido: El apellido del cliente.
 		telefono: El Telefono del cliente.
 	"""
-	cedula = models.IntegerField(primary_key=True, validators=[RegexValidator(regex="/^[V|E|J|P][0-9]{5,9}$/",message="Cedula invalida")])
+	cedula = models.IntegerField(primary_key=True, validators=[RegexValidator(regex="^[V|E|J|P][0-9]{5,9}$",message="Cedula invalida")])
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Apellido invalido')])
-	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="/\(?([0-9]{4})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/",message='Telefono invalido')])
+	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="\(?([0-9]{4})\)?([ .-]?)([0-9]{3})\2([0-9]{4})",message='Telefono invalido')])
 
 class Interes(models.Model):
 	"""
@@ -67,7 +68,7 @@ class Preparador(models.Model):
 	cedula = models.IntegerField(primary_key=True)
 	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
 	#correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
 	cantidad_deuda = models.FloatField(default=0)
 	fecha_deuda = models.DateTimeField(default=None)
@@ -119,11 +120,11 @@ class Transaccion(models.Model):
 	Atributos de la clase:
 		fecha  : Fecha del cierre de caja por el sistema.
 		monto  : Atributo derivado que indica el valor de la transaccion.
-		tipo   : Indica el tipo de la transaccion.
+		tipo   : Indica el tipo de la transaccion (en discusion).
 	"""
 	fecha = models.DateTimeField()
 	monto = models.FloatField(default=None)
-	tipo = models.CharField(max_length=30)
+	#tipo = models.CharField(max_length=30)
 
 class Venta(models.Model):
 	"""
