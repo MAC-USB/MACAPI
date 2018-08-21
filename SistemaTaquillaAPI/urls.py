@@ -19,7 +19,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from taquillaAPI import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('articulo/', views.ArticuloList.as_view()),
-
+    path('', include('taquillaAPI.urls')),
 ]
+
 urlpatterns = format_suffix_patterns(urlpatterns)
