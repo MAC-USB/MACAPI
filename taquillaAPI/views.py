@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from taquillaAPI.models import *
+from taquillaAPI.models import PlataformaPago
 from taquillaAPI.serializers import *
 from rest_framework import generics
 
@@ -17,38 +18,37 @@ class ArticuloList(generics.ListCreateAPIView):
 
 class ClienteList(generics.ListCreateAPIView):
 	queryset = Cliente.objects.all()
-	serializers_class = ClienteSerializer
+	serializer_class = ClienteSerializer
 
 class InteresList(generics.ListCreateAPIView):
 	queryset = Interes.objects.all()
-	serializers_class = InteresSerializer	
+	serializer_class = InteresSerializer	
 
 class PreparadorList(generics.ListCreateAPIView):
 	queryset = Preparador.objects.all()
-	serializers_class = PreparadorSerializer
+	serializer_class = PreparadorSerializer
 
 class HistorialCuentaList(generics.ListCreateAPIView):
 	queryset = HistorialCuenta.objects.all()
-	serializers_class = HistorialCuentaSerializer
+	serializer_class = HistorialCuentaSerializer
 
-"""
 class PlataformaPagoList(generics.ListCreateAPIView):
 	queryset = PlataformaPago.objects.all()
-	serializers_class = PlataformaPagoSerializer
+	serializer_class = PlataformaPagoSerializer
 
 class TransaccionList(generics.ListCreateAPIView):
 	queryset = Transaccion.objects.all()
-	serializers_class = TransaccionSerializer
+	serializer_class = TransaccionSerializer
 
 class VentaList(generics.ListCreateAPIView):
 	queryset = Venta.objects.all()
-	serializers_class = VentaSerializer
+	serializer_class = VentaSerializer
 
 class DeudaList(generics.ListCreateAPIView):
 	queryset = Deuda.objects.all()
-	serializers_class = DeudaSerializer
+	serializer_class = DeudaSerializer
 
 class PagoDeudaList(generics.ListCreateAPIView):
 	queryset = PagoDeuda.objects.all()
-	serializers_class = PagoDeudaSerializer
-"""
+	serializer_class = PagoDeudaSerializer
+
