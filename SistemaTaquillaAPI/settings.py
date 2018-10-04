@@ -79,6 +79,13 @@ WSGI_APPLICATION = 'SistemaTaquillaAPI.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+try:
+    CUR_DOMAIN = os.environ.get('CUR_DOMAIN')
+except:
+    CUR_DOMAIN = 'localhost'
+
+if CUR_DOMAIN == '' or CUR_DOMAIN is None:
+    CUR_DOMAIN ='localhost'
 
 DATABASES = {
     'default': {
@@ -88,9 +95,21 @@ DATABASES = {
         'PASSWORD': 'taquilla',
         'HOST': 'localhost',
         'PORT': 5432,
+    },
+    'macapi': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd8ubahqsoett2q',
+        'USER': 'qlxzvdrigjfyga',
+        'PASSWORD': '937a64db67860508a3cd62c2ef2300ffef4da8ba41ed01b6d4fbc91f5bd9de4a',
+        'HOST': 'ec2-54-163-246-5.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'connect_timeout': None,
+        }
     }
 }
 
+DATABASES = {'default': DATABASES_LIST[CUR_DOMAIN]}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -127,7 +146,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+STATIC_ROOT = 'static' # Important for Heroku
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
