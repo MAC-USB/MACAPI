@@ -15,7 +15,7 @@ class ArticuloSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Articulo
-		fields = ('nombre','precio')
+		fields = ('pk','nombre','precio')
 
 class ClienteSerializer(serializers.ModelSerializer):
 	"""
