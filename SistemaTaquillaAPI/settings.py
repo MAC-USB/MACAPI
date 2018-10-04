@@ -85,7 +85,7 @@ except:
 if CUR_DOMAIN == '' or CUR_DOMAIN is None:
     CUR_DOMAIN ='localhost'
 
-DATABASES = {
+DATABASES_LIST = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'taquilladb',
