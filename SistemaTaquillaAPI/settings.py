@@ -25,7 +25,7 @@ SECRET_KEY = 'z@(cgp3hxng75z!n$s)f5yz^vt2vln%x64$j_24#njzuyc7inj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mactaquilla.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
