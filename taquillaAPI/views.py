@@ -16,6 +16,14 @@ class ArticuloList(generics.ListCreateAPIView):
 	queryset = Articulo.objects.all()
 	serializer_class = ArticuloSerializer
 
+class ArticuloUpdate(generics.UpdateAPIView):
+	queryset = Articulo.objects.all()
+	serializer_class = ArticuloSerializer
+
+class ArticuloDestroy(generics.DestroyAPIView):
+	queryset = Articulo.objects.all()
+	serializer_class = ArticuloSerializer
+
 class ClienteList(generics.ListCreateAPIView):
 	queryset = Cliente.objects.all()
 	serializer_class = ClienteSerializer
