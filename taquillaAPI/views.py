@@ -31,7 +31,7 @@ class ClienteList(generics.ListCreateAPIView):
 
 class ClienteUpdate(generics.UpdateAPIView):
 	queryset = Cliente.objects.all()
-	serializer_class = ClienteSerializer
+	serializer_class = ClienteUpdateSerializer
 	lookup_field = 'cedula'
 
 class ClienteDestroy(generics.DestroyAPIView):
