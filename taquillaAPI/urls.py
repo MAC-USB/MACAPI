@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^taquilla-api/articulo/(?P<pk>\d+)/edit$',views.ArticuloUpdate.as_view()),
     url(r'^taquilla-api/articulo/(?P<pk>\d+)/delete$',views.ArticuloDestroy.as_view()),
     path('taquilla-api/cliente/', views.ClienteList.as_view()),
+    url(r'^taquilla-api/cliente/(?P<cedula>[-\w\d]+)/edit$',views.ClienteUpdate.as_view()),
+    url(r'^taquilla-api/cliente/<cedula>/delete$',views.ClienteDestroy.as_view()),
     path('taquilla-api/interes/', views.InteresList.as_view()),
     path('taquilla-api/preparador/', views.PreparadorList.as_view()),
     path('taquilla-api/historialcuenta/', views.HistorialCuentaList.as_view()),

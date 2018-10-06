@@ -26,6 +26,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Cliente
 		fields = ('cedula', 'nombre','apellido','telefono')
+		read_only_fields = ('cedula',)
 
 
 class InteresSerializer(serializers.ModelSerializer):

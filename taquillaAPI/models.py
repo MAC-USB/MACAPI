@@ -29,10 +29,10 @@ class Cliente(models.Model):
 		apellido: El apellido del cliente.
 		telefono: El Telefono del cliente.
 	"""
-	cedula = models.IntegerField(primary_key=True, validators=[RegexValidator(regex="^[V|E|J|P][0-9]{5,9}$",message="Cedula invalida")])
+	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P][0-9]{5,9}$",message="Cedula invalida")])
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Apellido invalido')])
-	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="\(?([0-9]{4})\)?([ .-]?)([0-9]{3})\2([0-9]{4})",message='Telefono invalido')])
+	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="[(]?\d{3}[)]?\s?-?\s?\d{3}\s?-?\s?\d{4}",message='Telefono invalido')])
 
 class Interes(models.Model):
 	"""
@@ -65,7 +65,7 @@ class Preparador(models.Model):
         fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
         es None.
 	"""
-	cedula = models.IntegerField(primary_key=True)
+	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P][0-9]{5,9}$",message="Cedula invalida")])
 	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
