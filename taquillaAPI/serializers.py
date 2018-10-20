@@ -47,7 +47,7 @@ class InteresSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Interes
-		fields = ('porcentaje', 'rango_dias')
+		fields = ('pk','porcentaje', 'rango_dias')
 
 class PreparadorSerializer(serializers.ModelSerializer):
 	"""
@@ -101,7 +101,7 @@ class PlataformaPagoSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = PlataformaPago
-		fields = ['nombre'] 
+		fields = ('pk','nombre') 
 
 class TransaccionSerializer(serializers.ModelSerializer):
 	"""
@@ -111,7 +111,7 @@ class TransaccionSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Transaccion
-		fields = ('fecha','monto')
+		fields = ('pk','fecha','monto')
 
 class VentaSerializer(serializers.ModelSerializer):
 	"""
@@ -121,7 +121,7 @@ class VentaSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Venta
-		fields = ('id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador')
+		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador')
 
 class DeudaSerializer(serializers.ModelSerializer):
 	"""
@@ -131,7 +131,7 @@ class DeudaSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Deuda
-		fields = ('id_transaccion','articulo','cantidad_producto','preparador')
+		fields = ('pk','id_transaccion','articulo','cantidad_producto','preparador')
 
 class PagoDeudaSerializer(serializers.ModelSerializer):
 	"""
@@ -141,4 +141,4 @@ class PagoDeudaSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = PagoDeuda
-		fields = ('id_transaccion','montoDeuda','tipoPago','nro_confirmacion','plataforma_pago','fecha_pago','preparador')
+		fields = ('pk','id_transaccion','montoDeuda','tipoPago','nro_confirmacion','plataforma_pago','fecha_pago','preparador')
