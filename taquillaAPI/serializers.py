@@ -101,7 +101,7 @@ class PlataformaPagoSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = PlataformaPago
-		fields = ('pk','nombre') 
+		fields = ('pk','nombre','codigo_banco') 
 
 class TransaccionSerializer(serializers.ModelSerializer):
 	"""
@@ -122,6 +122,17 @@ class VentaSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Venta
 		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador','notas')
+
+class VentaDetailsSerializer(serializers.ModelSerializer):
+	"""
+	Consiste en el serializer del modelo Venta.
+
+	Campos que se van a pasar: id_transaccion, cantidad_producto, articulo, tipoPago, nro_confirmacion, plataforma_pago, cliente, preparador
+	"""
+	class Meta:
+		model = Venta
+		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador','notas')
+		depth = 1
 
 class DeudaSerializer(serializers.ModelSerializer):
 	"""

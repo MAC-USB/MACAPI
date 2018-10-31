@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
@@ -77,7 +77,7 @@ class Preparador(models.Model):
 	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
-	correo = models.CharField(max_length=20,null=True,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
+	correo = models.EmailField(max_length=20,null=True,blank=True,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
 	cantidad_deuda = models.FloatField(default=0)
 	fecha_deuda = models.DateTimeField(default=None,null=True)
 
@@ -122,7 +122,8 @@ class PlataformaPago(models.Model):
 		nombre: La denominacion de la plataforma de pago.
 	"""
 	nombre = models.CharField(max_length=30,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-
+	codigo_banco = models.IntegerField(validators=[MaxValueValidator(9999)],null=True)
+	
 	def __str__(self):
     		return str(self.nombre)
 

@@ -74,20 +74,32 @@ class TransaccionRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 class VentaListCreate(generics.ListCreateAPIView):
 	queryset = Venta.objects.all()
-	serializer_class = VentaSerializer
+
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'GET':
+			return VentaDetailsSerializer
+		else:
+			return VentaSerializer
 
 class VentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Preparador.objects.all()
-	serializer_class = PreparadorSerializer
+	queryset = Venta.objects.all()
+	serializer_class = VentaSerializer
 
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'PUT':
+			return VentaSerializer
+		else:
+			return VentaDetailsSerializer
 
 class DeudaListCreate(generics.ListCreateAPIView):
 	queryset = Deuda.objects.all()
 	serializer_class = DeudaSerializer
 
 class DeudaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Preparador.objects.all()
-	serializer_class = PreparadorSerializer
+	queryset = Deuda.objects.all()
+	serializer_class = DeudaSerializer
 
 
 class PagoDeudaListCreate(generics.ListCreateAPIView):
@@ -95,6 +107,6 @@ class PagoDeudaListCreate(generics.ListCreateAPIView):
 	serializer_class = PagoDeudaSerializer
 
 class PagoDeudaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Preparador.objects.all()
-	serializer_class = PreparadorSerializer
+	queryset = PagoDeuda.objects.all()
+	serializer_class = PagoDeudaSerializer
 
