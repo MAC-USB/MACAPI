@@ -14,7 +14,7 @@ class Articulo(models.Model):
 		nombre: Nombre del articulo.
 		precio: Precio del articulo.
 	"""
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]',message='Nombre invalido')])
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ/ ]+$',message='Nombre invalido')])
 	precio = models.FloatField(default=0)
 
 	def __str__(self):
@@ -34,8 +34,8 @@ class Cliente(models.Model):
 		telefono: El Telefono del cliente.
 	"""
 	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Cedula invalida")])
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",message='Apellido invalido')])
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Apellido invalido')])
 	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="[(]?\d{3}[)]?\s?-?\s?\d{3}\s?-?\s?\d{4}",message='Telefono invalido')])
 
 	def __str__(self):
@@ -75,8 +75,8 @@ class Preparador(models.Model):
 	"""
 	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Cedula invalida")])
 	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
+	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ]+$',message='Nombre invalido')])
+	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Apellido invalido')])
 	correo = models.EmailField(max_length=40,null=True,blank=True,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
 	cantidad_deuda = models.FloatField(default=0)
 	fecha_deuda = models.DateTimeField(default=None,null=True)
@@ -121,7 +121,7 @@ class PlataformaPago(models.Model):
 	Atributos de la clase:
 		nombre: La denominacion de la plataforma de pago.
 	"""
-	nombre = models.CharField(max_length=30,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
+	nombre = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Nombre invalido')])
 	codigo_banco = models.IntegerField(validators=[MaxValueValidator(9999)],null=True)
 	
 	def __str__(self):
@@ -141,7 +141,7 @@ class Transaccion(models.Model):
 	"""
 	fecha = models.DateTimeField(default=datetime.now)
 	monto = models.FloatField(default=None)
-	tipo = models.CharField(max_length=30,null=True,validators=[RegexValidator(regex='[a-zA-Z]+',message='Tipo invalido')])
+	tipo = models.CharField(max_length=30,null=True,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
 
 	def __str__(self):
     		return str(self.fecha)
@@ -169,7 +169,7 @@ class Venta(models.Model):
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 	cantidad_producto = models.IntegerField(default=0)
 	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
-	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='[a-zA-Z]+',message='Tipo invalido')])
+	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
 	nro_confirmacion = models.IntegerField(default=None)
 	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE,default=None)
 	cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
@@ -216,7 +216,7 @@ class PagoDeuda(models.Model):
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 	montoDeuda = models.FloatField(default=0)
-	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='[a-zA-Z]')])
+	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$')])
 	nro_confirmacion = models.IntegerField(default=None)
 	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE, default=None)
 	fecha_pago = models.DateTimeField(default=datetime.now)
