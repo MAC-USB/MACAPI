@@ -57,7 +57,7 @@ class PreparadorSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Preparador
-		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda')
+		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda','correo')
 
 class PreparadorUpdateSerializer(serializers.ModelSerializer):
 	"""
@@ -68,7 +68,7 @@ class PreparadorUpdateSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Preparador
-		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda')
+		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda','correo')
 		read_only_fields = ('cedula',)
 
 class HistorialCuentaSerializer(serializers.ModelSerializer):
@@ -111,7 +111,7 @@ class TransaccionSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Transaccion
-		fields = ('pk','fecha','monto')
+		fields = ('pk','fecha','monto','tipo')
 
 class VentaSerializer(serializers.ModelSerializer):
 	"""
@@ -121,7 +121,7 @@ class VentaSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Venta
-		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador')
+		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador','notas')
 
 class DeudaSerializer(serializers.ModelSerializer):
 	"""
