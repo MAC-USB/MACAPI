@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from taquillaAPI.models import *
-from taquillaAPI.models import PlataformaPago
 from taquillaAPI.serializers import *
 from rest_framework import generics
 
@@ -8,105 +7,113 @@ from rest_framework import generics
 
 """
 
-Views del Restframework
+Views of Restframework
 
 """
 
-class ArticuloListCreate(generics.ListCreateAPIView):
-	queryset = Articulo.objects.all()
-	serializer_class = ArticuloSerializer
+class ProductListCreate(generics.ListCreateAPIView):
+	queryset = Product.objects.all()
+	serializer_class = ProductSerializer
 
-class ArticuloRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Articulo.objects.all()
-	serializer_class = ArticuloSerializer
+class ProductRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Product.objects.all()
+	serializer_class = ProductSerializer
 
-class ClienteListCreate(generics.ListCreateAPIView):
-	queryset = Cliente.objects.all()
-	serializer_class = ClienteSerializer
+class ClientListCreate(generics.ListCreateAPIView):
+	queryset = Client.objects.all()
+	serializer_class = ClientSerializer
 
-class ClienteRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Cliente.objects.all()
-	serializer_class = ClienteUpdateSerializer
-	lookup_field = 'cedula'
+class ClientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Client.objects.all()
+	serializer_class = ClientUpdateSerializer
+	lookup_field = 'id_document'
 
-class InteresListCreate(generics.ListCreateAPIView):
-	queryset = Interes.objects.all()
-	serializer_class = InteresSerializer
+class InterestListCreate(generics.ListCreateAPIView):
+	queryset = Interest.objects.all()
+	serializer_class = InterestSerializer
 
-class InteresRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Interes.objects.all()
-	serializer_class = InteresSerializer
+class InterestRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Interest.objects.all()
+	serializer_class = InterestSerializer
 
-class PreparadorListCreate(generics.ListCreateAPIView):
-	queryset = Preparador.objects.all()
-	serializer_class = PreparadorSerializer
+class AssistantListCreate(generics.ListCreateAPIView):
+	queryset = Assistant.objects.all()
+	serializer_class = AssistantSerializer
 
-class PreparadorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Preparador.objects.all()
-	serializer_class = PreparadorUpdateSerializer
-	lookup_field = 'cedula'
+class AssistantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Assistant.objects.all()
+	serializer_class = AssistantUpdateSerializer
+	lookup_field = 'id_document'
 
-class HistorialCuentaListCreate(generics.ListCreateAPIView):
-	queryset = HistorialCuenta.objects.all()
-	serializer_class = HistorialCuentaSerializer
+class AccountHistoryListCreate(generics.ListCreateAPIView):
+	queryset = AccountHistory.objects.all()
+	serializer_class = AccountHistorySerializer
 
-class HistorialCuentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = HistorialCuenta.objects.all()
-	serializer_class = HistorialCuentaUpdateSerializer
-	lookup_field = 'fecha'
+class AccountHistoryRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = AccountHistory.objects.all()
+	serializer_class = AccountHistoryUpdateSerializer
+	lookup_field = 'date'
 
-class PlataformaPagoListCreate(generics.ListCreateAPIView):
-	queryset = PlataformaPago.objects.all()
-	serializer_class = PlataformaPagoSerializer
+class BankListCreate(generics.ListCreateAPIView):
+	queryset = Bank.objects.all()
+	serializer_class = BankSerializer
 
-class PlataformaPagoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = PlataformaPago.objects.all()
-	serializer_class = PlataformaPagoSerializer
+class BankRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Bank.objects.all()
+	serializer_class = BankSerializer
 
-class TransaccionListCreate(generics.ListCreateAPIView):
-	queryset = Transaccion.objects.all()
-	serializer_class = TransaccionSerializer
+class PayMethodListCreate(generics.ListCreateAPIView):
+	queryset = PayMethod.objects.all()
+	serializer_class = PayMethodSerializer
 
-class TransaccionRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Transaccion.objects.all()
-	serializer_class = TransaccionSerializer
+class PayMethodRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = PayMethod.objects.all()
+	serializer_class = PayMethodSerializer
+
+class TransactionListCreate(generics.ListCreateAPIView):
+	queryset = Transaction.objects.all()
+	serializer_class = TransactionSerializer
+
+class TransactionRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Transaction.objects.all()
+	serializer_class = TransactionSerializer
 
 
-class VentaListCreate(generics.ListCreateAPIView):
-	queryset = Venta.objects.all()
+class SaleListCreate(generics.ListCreateAPIView):
+	queryset = Sale.objects.all()
 
 	def get_serializer_class(self):
 		method = self.request.method
 		if method == 'GET':
-			return VentaDetailsSerializer
+			return SaleDetailsSerializer
 		else:
-			return VentaSerializer
+			return SaleSerializer
 
-class VentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Venta.objects.all()
-	serializer_class = VentaSerializer
+class SaleRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Sale.objects.all()
+	serializer_class = SaleSerializer
 
 	def get_serializer_class(self):
 		method = self.request.method
 		if method == 'PUT':
-			return VentaSerializer
+			return SaleSerializer
 		else:
-			return VentaDetailsSerializer
+			return SaleDetailsSerializer
 
-class DeudaListCreate(generics.ListCreateAPIView):
-	queryset = Deuda.objects.all()
-	serializer_class = DeudaSerializer
+class DebtListCreate(generics.ListCreateAPIView):
+	queryset = Debt.objects.all()
+	serializer_class = DebtSerializer
 
-class DeudaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Deuda.objects.all()
-	serializer_class = DeudaSerializer
+class DebtRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Debt.objects.all()
+	serializer_class = DebtSerializer
 
 
-class PagoDeudaListCreate(generics.ListCreateAPIView):
-	queryset = PagoDeuda.objects.all()
-	serializer_class = PagoDeudaSerializer
+class DebtPaymentListCreate(generics.ListCreateAPIView):
+	queryset = DebtPayment.objects.all()
+	serializer_class = DebtPaymentSerializer
 
-class PagoDeudaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	queryset = PagoDeuda.objects.all()
-	serializer_class = PagoDeudaSerializer
+class DebtPaymentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = DebtPayment.objects.all()
+	serializer_class = DebtPaymentSerializer
 

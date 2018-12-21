@@ -3,96 +3,104 @@ from django.forms import ModelForm
 from .models import *
 from django.core.exceptions import NON_FIELD_ERRORS
 
-""" En el presente archivo se presentan los forms de todas las
-tablas en la base de datos para esta aplicacion.
+""" 
+In the present file the forms of all the tables in the database 
+for this application are presented.
 """
 
-class ArticuloForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de articulos.
+class ProductForm(ModelForm):
+    """ Form to add an instance to the table of products.
     """
     class Meta:
-        model = Articulo
-        fields = ["nombre", "precio"]
+        model = Product
+        fields = ["name", "price"]
 
-class ClienteForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de clientes.
+class ClientForm(ModelForm):
+    """ Form to add an instance to the table of clients.
     """
     class Meta:
-        model = Cliente
-        fields = ["cedula","nombre", "apellido","telefono"]
+        model = Client
+        fields = ["id_document","first_name", "last_name","phone_number"]
 
-class InteresForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de intereses.
+class InterestForm(ModelForm):
+    """ Form to add an instance to the table of interest.
     """
     class Meta:
-        model = Interes
-        fields = ["porcentaje","rango_dias"]
+        model = Interest
+        fields = ["percentage","range_days"]
 
-class PreparadorForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de preparadores.
+class AssistantForm(ModelForm):
+    """ Form to add an instance to the table of assistants.
     """
     class Meta:
-        model = Preparador
-        fields = ["cedula","iniciales","nombre", "apellido","cantidad_deuda","fecha_deuda"]
+        model = Assistant
+        fields = ["id_document","initials","first_name", "last_name","debt_amount","debt_date"]
 
-class HistorialCuentaForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de historial de cuenta.
+class AccountHistoryForm(ModelForm):
+    """ Form to add an instance to the table of Account History.
     """
     class Meta:
-        model = HistorialCuenta
-        fields = ["fecha", "cant_ideal_efectivo","cant_ideal_caja","cant_real_efectivo","cant_real_caja"]
+        model = AccountHistory
+        fields = ["date", "ideal_amount_cash","ideal_amount_account","real_amount_cash","real_amount_account"]
 
-class PlataformaPagoForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de plataforma de pago.
+class PayMethodForm(ModelForm):
+    """ Form to add an instance to the table of Pay Methods.
     """
     class Meta:
-        model = PlataformaPago
-        fields = ["nombre"]
+        model = PayMethod
+        fields = ["description"]
 
-class TransaccionForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de transacciones.
+class BankForm(ModelForm):
+    """ Form to add an instance to the table of Banks.
     """
     class Meta:
-        model = Transaccion
-        fields = ["fecha","monto"]
+        model = Bank
+        fields = ["name"]
 
-class VentaForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de ventas, subclase de Transaccion.
+class TransactionForm(ModelForm):
+    """ Form to add an instance to the table of Transaction.
     """
     class Meta:
-        model = Venta
-        fields = ["id_transaccion",
-                "cantidad_producto",
-                "articulo",
-                "tipoPago",
-                "nro_confirmacion",
-                "plataforma_pago",
-                "cliente",
-                "preparador"
+        model = Transaction
+        fields = ["date","amount"]
+
+class SaleForm(ModelForm):
+    """ Form to add an instance to the table of Sale, subclass of Transaction.
+    """
+    class Meta:
+        model = Sale
+        fields = ["transaction",
+                "product_quantity",
+                "product",
+                "bank",
+                "pay_method"
+                "confirmation_no",
+                "client",
+                "assistant"
                 ]
 
-class DeudaForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de Deudas, subclase de Transaccion.
+class DebtForm(ModelForm):
+    """ Form to add an instance to the table of Debts, subclass of Transaction.
     """
     class Meta:
-        model = Deuda
-        fields = ["id_transaccion",
-                "articulo",
-                "cantidad_producto",
-                "preparador"
+        model = Debt
+        fields = ["transaction",
+                "product",
+                "product_quantity",
+                "assistant"
                 ]
 
-class PagoDeudaForm(ModelForm):
-    """ Form para añadir una instancia a la tabla de Pago de deudas, subclase de
-    Transaccion.
+class DebtPaymentForm(ModelForm):
+    """ Form to add an instance to the table of Debt Payment, subclass of
+    Transaction.
     """
     class Meta:
-        model = PagoDeuda
-        fields = ["id_transaccion",
-                "montoDeuda",
-                "tipoPago",
-                "nro_confirmacion",
-                "plataforma_pago",
-                "fecha_pago",
-                "preparador",
+        model = DebtPayment
+        fields = ["transaction",
+                "debt_amount",
+                "bank",
+                "pay_method"
+                "confirmation_no",
+                "pay_date",
+                "assistant",
                 ]
