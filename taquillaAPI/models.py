@@ -3,221 +3,226 @@ from django.core.validators import RegexValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
-class Articulo(models.Model):
+class Product(models.Model):
 	"""
-	Consiste en la tabla de las asignaturas.
-
-	Parametros:
-		models.Model (Articulo): es la instancia sobre la que se crea la tabla.
-
-	Atributos de la clase:
-		nombre: Nombre del articulo.
-		precio: Precio del articulo.
-	"""
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ/ ]+$',message='Nombre invalido')])
-	precio = models.FloatField(default=0)
-
-	def __str__(self):
-    		return str(self.nombre)
 	
-class Cliente(models.Model):
-	"""
-	Consiste en la tabla de clientes.
+	It consists of the table of products.
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+	models.Model (Product): is the instance on which the table is created. (Articulos)
 
-	Atributos de la clase:
-		cedula: La cedula del cliente.
-		nombre: El nombre del cliente.
-		apellido: El apellido del cliente.
-		telefono: El Telefono del cliente.
+	Attributes of the class:
+	Name: Name of the product.
+	Price: Price of the product.
 	"""
-	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Cedula invalida")])
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Apellido invalido')])
-	telefono = models.CharField(max_length=15,validators=[RegexValidator(regex="[(]?\d{3}[)]?\s?-?\s?\d{3}\s?-?\s?\d{4}",message='Telefono invalido')])
+	name = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ/ ]+$',message='Invalid name')])
+	price = models.FloatField(default=0)
 
 	def __str__(self):
-    		return str(self.cedula)
-class Interes(models.Model):
-	"""
-	Consiste en la tabla de intereses.
-
-	Parametros:
-		models.Model (Interes): es la instancia sobre la que se crea la tabla.
-
-	Atributos de la clase:
-		porcentaje: Es el porcentaje del interes.
-		rango_dias: Es la cantidad de dias que corresponde a ese interes.
-	"""
-	porcentaje = models.FloatField(default=0)
-	rango_dias = models.IntegerField(default=0)
-
-	def __str__(self):
-    		return str(self.porcentaje)
-class Preparador(models.Model):
-	"""
-    Tabla que almacena los preparadores activos o recurrentes.
+    		return str(self.name)
 	
-    Parametros:
-		models.Model (Coordinacion): es la instancia sobre la que se crea la tabla.
-	
-    Atributos de la clase: 
-		cedula : Cedula de identidad del preparador.
-        iniciales : Iniciales del preparador, de tenerlas.
-        nombre : Nombre del preparador.
-		apellido : apellido del preparador.
-        correo : Correo asociado.
-        cantidad_deuda : Cantidad de deuda acumulada.
-        fecha_deuda : Fecha en la cual cantidad_deuda pasó a ser mayor de cero. Default
-        es None.
+class Client(models.Model):
 	"""
-	cedula = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Cedula invalida")])
-	iniciales = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Iniciales inválidas')])
-	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ]+$',message='Nombre invalido')])
-	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Apellido invalido')])
-	correo = models.EmailField(max_length=40,null=True,blank=True,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
-	cantidad_deuda = models.FloatField(default=0)
-	fecha_deuda = models.DateTimeField(default=None,null=True)
+	It consists of the table of clients.
+
+	Parameters:
+	models.Model (Client): is the instance on which the table is created. (Clientes)
+
+	Attributes of the class:
+	id_document: Client ID Document (Cedula)
+	first_name: First name of the Client
+	last_name: Last name of the Client
+	"""
+	id_document = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Invalid document id")])
+	first_name = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Invalid first name')])
+	last_name = models.CharField(max_length=50,validators=[RegexValidator(regex="^[a-zA-Záéíóúñ]+$",message='Invalid last name')])
+	phone_number = models.CharField(max_length=15,validators=[RegexValidator(regex="[(]?\d{3}[)]?\s?-?\s?\d{3}\s?-?\s?\d{4}",message='Invalid Phone')])
 
 	def __str__(self):
-			return str(self.iniciales)
+    		return str(self.id_document)
+class Interest(models.Model):
+	"""
+	It consists of the table of interest.
 
-class HistorialCuenta(models.Model):
+	Parameters:
+	models.Model (Interest): is the instance on which the table is created. (Intereses)
+
+	Attributes of the class:
+	percentage: Percentage of interest
+	range_days: Range of days
 	"""
-    Tabla que almacena los preparadores activos o recurrentes.
-	
-    Parametros:
-		models.Model (Coordinacion): es la instancia sobre la que se crea la tabla.
-	
-    Atributos de la clase: 
-		fecha  : Clave primaria. Fecha del cierre de caja por el sistema.
-		cant_ideal_efectivo  :  Cantidad en efectivo calculada por el sistema a partir
-								de las ventas de la fecha.
-		cant_ideal_caja  :  Cantidad en banco calculada por el sistema a partir
-							de las ventas de la fecha.
-		cant_ideal_efectivo  :  Cantidad en efectivo indicada por el preparador en
-								la fecha.
-		cant_ideal_caja  :  Cantidad en banco indicada por el preparador en la fecha.
-        fecha : fecha de la transaccion asociada que produjo un cambio.
-	"""
-	fecha = models.DateTimeField(primary_key=True)
-	cant_ideal_efectivo = models.FloatField(default=0)
-	cant_ideal_caja = models.FloatField(default=0)
-	cant_real_efectivo = models.FloatField(default=0)
-	cant_real_caja = models.FloatField(default=0)
+	percentage = models.FloatField(default=0)
+	range_days = models.IntegerField(default=0)
 
 	def __str__(self):
-    		return str(self.fecha)
-
-class PlataformaPago(models.Model):
+    		return str(self.percentage)
+class Assistant(models.Model):
 	"""
-	Consiste en la tabla de plataformas de pago usadas para una transaccion.
+    It consists of the table of assistants.
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+	models.Model (Assistant): is the instance on which the table is created. (Preparador)
 
-	Atributos de la clase:
-		nombre: La denominacion de la plataforma de pago.
+	Attributes of the class:
+	id_document: Assistant ID Document (Cedula)
+	first_name: First name of the Assistant
+	last_name: Last name of the Assistant
+	email: Email of the Assistant
+	debt_amount: amount of debt accumulated by the assistant
+	debt_date: Debt date by the assistant
 	"""
-	nombre = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Nombre invalido')])
-	codigo_banco = models.IntegerField(validators=[MaxValueValidator(9999)],null=True)
+	id_document = models.CharField(primary_key=True, max_length=10,validators=[RegexValidator(regex="^[V|E|J|P]\-[0-9]{5,8}$",message="Invalid id document")])
+	initials = models.CharField(default=None,max_length=3,validators=[RegexValidator(regex='[A-Z]{2,3}',message='Invalid initials')])
+	first_name = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ]+$',message='Invalid first name')])
+	last_name = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid last name')])
+	email = models.EmailField(max_length=40,null=True,blank=True,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Invalid email')])
+	debt_amount = models.FloatField(default=0)
+	debt_date = models.DateTimeField(default=None,null=True)
+
+	def __str__(self):
+			return str(self.initials)
+
+class AccountHistory(models.Model):
+	"""
+    It consists of the table of account history.
+
+	Parameters:
+	models.Model (AccountHistory): is the instance on which the table is created. (HistorialCuenta)
+
+	Attributes of the class:
+	date: Date of account history
+	ideal_amount_cash: Amount of ideal cash (cant_ideal_efectivo)
+	ideal_amount_account: Amount of ideal account (cant_ideal_caja)
+	real_amount_cash: Amount of real cash (cant_real_efectivo)
+	real_amount_account: Amount of real account (cant_real_caja)
+	"""
+	date = models.DateTimeField(primary_key=True)
+	ideal_amount_cash = models.FloatField(default=0)
+	ideal_amount_account = models.FloatField(default=0)
+	real_amount_cash = models.FloatField(default=0)
+	real_amount_account = models.FloatField(default=0)
+
+	def __str__(self):
+    		return str(self.date)
+
+class PayMethod(models.Model):
+	"""
+	It consists of the table of Pay Methods.
+
+	Parameters:
+	models.Model (PaYMethod): is the instance on which the table is created.
+
+	Attributes of the clayss:
+	description: Description about how the transaction was maked
+	"""
+	description = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid description')])
+
+class Bank(models.Model):
+	"""
+	It consists of the table of Banks.
+
+	Parameters:
+	models.Model (Bank): is the instance on which the table is created.
+
+	Attributes of the class:
+	pay_method: Pay method of Bank
+	name: Name of bank
+	code: Code of bank
+	"""
+
+	name = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid name')])
+	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE)
+	code = models.IntegerField(validators=[MaxValueValidator(9999)],default=0)
 	
 	def __str__(self):
-    		return str(self.nombre)
+    		return str(self.name)
 
-class Transaccion(models.Model):
+
+class Transaction(models.Model):
 	"""
-	Consiste en la tabla de transacciones de taquilla.
+	It consists of the table of Transaction on Taquilla.
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+	models.Model (Transaction): is the instance on which the table is created.
 
-	Atributos de la clase:
-		fecha  : Fecha del cierre de caja por el sistema.
-		monto  : Atributo derivado que indica el valor de la transaccion.
-		tipo   : Indica el tipo de la transaccion (en discusion).
+	Attributes of the class:
+	date: Date of Transaction
+	amount: Transaction amount
+	types: Type of the transaction (In discussion)
 	"""
-	fecha = models.DateTimeField(default=datetime.now)
-	monto = models.FloatField(default=None)
-	tipo = models.CharField(max_length=30,null=True,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
+	date = models.DateTimeField(default=datetime.now)
+	amount = models.FloatField(default=None)
+	types = models.CharField(max_length=30,null=True,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
 
 	def __str__(self):
-    		return str(self.fecha)
+    		return str(self.date)
 
-class Venta(models.Model):
+class Sale(models.Model):
 	"""
-	Se trata de una subclase de Transaccion, y consiste en las ventas por
-	taquilla.
+	It's about a Transaction subclass, and consist in the sale on Taquilla
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+	models.Model (Sale): is the instance on which the table is created.
 
-	Atributos de la clase:
-		id_transaccion : Referencia a la tabla transaccion, su superclase.
-		articulo : Referencia al articulo solicitado.
-		cantidad_producto : Cantidad del producto solicitado.
-		tipoPago : Tipo de pago, transferencia o efectivo.
-		nro_confirmacion : numero de confirmacion, en caso de ser tranferencia.
-		plataforma_pago : Referencia a la plataforma de pago utilizada, de ser
-						  transferencia.
-		cliente : Referencia al cliente.
-		preparador : Referencia al preparador.
-		notas : Anotaciones referentes a la venta en particular (en discusion).
+	Attributes of the class:
+	transaction: Transaction associated to the sale
+	product_quantity: Quantity of product
+	product: What product was sell
+	pay_method: Method to pay the sale
+	bank: If pay_method was a bank transfer, the bank
+	client: What client buy the product
+	assistant: What assistant sell the product
+	notes: Notes about the sale
 	"""
-	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-	cantidad_producto = models.IntegerField(default=0)
-	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
-	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
-	nro_confirmacion = models.IntegerField(default=None)
-	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE,default=None)
-	cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
-	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
-	notas = models.CharField(max_length=60,null=True)
+	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+	product_quantity = models.IntegerField(default=0)
+	product = models.ForeignKey(Product,on_delete=models.CASCADE)
+	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE, default=None)
+	bank = models.ForeignKey(Bank, on_delete=models.CASCADE, default=None)
+	confirmation_no = models.IntegerField(default=None)
+	client = models.ForeignKey(Client,on_delete=models.CASCADE)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
+	notes = models.CharField(max_length=60,null=True)
 
 
-class Deuda(models.Model):
+class Debt(models.Model):
 	"""
-	Se trata de una subclase de Transaccion, y consiste en el registro de deuda por
-	parte de los preparadores al adquirir algun producto.
+	It's about a Transaction subclass, and consist in the register debt by the assistants to acquire some product. (Deuda)
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+		models.Model (Debt): is the instance on which the table is created.
 
-	Atributos de la clase:
-		id_transaccion : Referencia a la tabla transaccion, su superclase.
-		articulo : Referencia al articulo solicitado.
-		cantidad_producto : Cantidad del producto solicitado.
-		preparador : Referencia al preparador.
+	Attributes of the class:
+		transaction : Reference to the Transaction table, the superclass.
+		product : Reference to the requested product.
+		product_quantity : Quantity of requested product.
+		assistant : Reference to the assistant.
 	"""
-	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
-	cantidad_producto = models.IntegerField(default=0)
-	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
+	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+	product = models.ForeignKey(Product,on_delete=models.CASCADE)
+	product_quantity = models.IntegerField(default=0)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
 
-class PagoDeuda(models.Model):
+class DebtPayment(models.Model):
 	"""
-	Se trata de una subclase de Transaccion, y consiste en pagos de la deuda
-	acumulada de un preparador.
+	It's about a Transaccion subclass, and consist in payment of acumulated debt by a assistant
 
-	Parametros:
-		models.Model (Cliente): es la instancia sobre la que se crea la tabla.
+	Parameters:
+		models.Model (DebtPayment): is the instance on which the table is created.
 
-	Atributos de la clase:
-		id_transaccion : Referencia a la tabla transaccion, su superclase.
-		montoDeuda : Cantidad del producto solicitado.
-		tipoPago : Tipo de pago, transferencia o efectivo.
-		nro_confirmacion : numero de confirmacion, en caso de ser tranferencia.
-		plataforma_pago : Referencia a la plataforma de pago utilizada, de ser
-						  transferencia.
-		fecha_pago : En caso de ser transferencia, fecha de realizacion de la misma.
-		preparador : Referencia al preparador.
+	Attributes of the class:
+		transaction : Reference to the transaction table, the superclass.
+		debt_amount : Amount of paid debt.
+		pay_method : Type of payment.
+		bank : If payment made on bank transfer, the bank.
+		confirmation_no : If payment made on bank transfer, the confirmation number.
+		pay_date : Date of paid debt.
+		assitant : Reference to the assistant.
 	"""
-	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-	montoDeuda = models.FloatField(default=0)
-	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$')])
-	nro_confirmacion = models.IntegerField(default=None)
-	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE, default=None)
-	fecha_pago = models.DateTimeField(default=datetime.now)
-	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
+	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+	debt_amount = models.FloatField(default=0)
+	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE)
+	bank = models.ForeignKey(Bank, on_delete=models.CASCADE, default=None)
+	confirmation_no = models.IntegerField(default=None)
+	pay_date = models.DateTimeField(default=datetime.now)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)

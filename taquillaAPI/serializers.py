@@ -2,180 +2,194 @@ from rest_framework import serializers
 from taquillaAPI.models import *
 
 """
- Serializers para hacer funcionar el Rest framework
+ Serializers to make works the Rest framework
 """
 
 
-class ArticuloSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
 
 	"""
-	Consiste en el serializer del modelo Articulo.
+	Consist in the serializer of model Product.
 
-	Campos que se van a pasar: nombre, precio
-	"""
-	class Meta:
-		model = Articulo
-		fields = ('pk','nombre','precio')
-
-class ClienteSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer del modelo Cliente.
-
-	Campos que se van a pasar: nombre, precio
+	Fields that are going to pass: name, price
 	"""
 	class Meta:
-		model = Cliente
-		fields = ('cedula', 'nombre','apellido','telefono')
+		model = Product
+		fields = ('pk','name','price')
 
-class ClienteUpdateSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer update del modelo Cliente.
+	Consist in the serializer of model Client.
 
-	Campos que se van a pasar: nombre, precio
-	Campos que solo se van a leer: cedula
-	"""
-	class Meta:
-		model = Cliente
-		fields = ('cedula', 'nombre','apellido','telefono')
-		read_only_fields = ('cedula',)
-
-class InteresSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer del modelo Interes.
-
-	Campos que se van a pasar: porcentaje, rango_dias
+	Fields that are going to pass: first_name, price
 	"""
 	class Meta:
-		model = Interes
-		fields = ('pk','porcentaje', 'rango_dias')
+		model = Client
+		fields = ('id_document', 'first_name','last_name','phone_number')
 
-class PreparadorSerializer(serializers.ModelSerializer):
+class ClientUpdateSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo Preparador.
+	Consist in the serializerr update of model Client.
 
-	Campos que se van a pasar: cedula, iniciales, nombre, apellido, correo, cantidad_deuda, fecha_deuda
-	"""
-	class Meta:
-		model = Preparador
-		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda','correo')
-
-class PreparadorUpdateSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer update del modelo Preparador.
-
-	Campos que se van a pasar: cedula, iniciales, nombre, apellido, correo, cantidad_deuda, fecha_deuda
-	Campos que solo se van a leer: cedula
+	Fields that are going to pass: first_name, last_name, phone_number
+	Fields that are read only: id_document
 	"""
 	class Meta:
-		model = Preparador
-		fields = ('cedula', 'iniciales','nombre','apellido','cantidad_deuda','fecha_deuda','correo')
-		read_only_fields = ('cedula',)
+		model = Client
+		fields = ('id_document', 'first_name','last_name','phone_number')
+		read_only_fields = ('id_document',)
 
-class HistorialCuentaSerializer(serializers.ModelSerializer):
+class InterestSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo HistorialCuenta.
+	Consist in the serializer of model Interest.
 
-	Campos que se van a pasar: fecha, cant_ideal_efectivo, cant_ideal_caja, cant_real_efectivo,cant_real_caja
-	"""
-	class Meta:
-		model = HistorialCuenta
-		fields = ('fecha','cant_ideal_efectivo','cant_ideal_caja','cant_real_efectivo','cant_real_caja')
-
-class HistorialCuentaUpdateSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer update del modelo Historial Cuenta.
-
-	Campos que se van a pasar: fecha, cant_ideal_efectivo, cant_ideal_caja, cant_real_efectivo,cant_real_caja
-	Campos que solo se van a leer: fecha
+	Fields that are going to pass: percentage, range_days
 	"""
 	class Meta:
-		model = Cliente
-		fields = ('fecha','cant_ideal_efectivo','cant_ideal_caja','cant_real_efectivo','cant_real_caja')
-		read_only_fields = ('fecha',)
+		model = Interest
+		fields = ('pk','percentage', 'range_days')
 
-class PlataformaPagoSerializer(serializers.ModelSerializer):
+class AssistantSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo PlataformaPago
+	Consist in the serializer of model Assistant.
 
-	Campos que se van a pasar: nombre
-	"""
-	class Meta:
-		model = PlataformaPago
-		fields = ('pk','nombre','codigo_banco') 
-
-class TransaccionSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer del modelo Transaccion.
-
-	Campos que se van a pasar: fecha, monto, tipo
+	Fields that are going to pass: id_document, initials, first_name, last_name, email, debt_amount, debt_date
 	"""
 	class Meta:
-		model = Transaccion
-		fields = ('pk','fecha','monto','tipo')
+		model = Assistant
+		fields = ('id_document', 'initials','first_name','last_name','debt_amount','debt_date','email')
 
-class VentaSerializer(serializers.ModelSerializer):
+class AssistantUpdateSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo Venta.
+	Consist in the serializerr update of model Assistant.
 
-	Campos que se van a pasar: id_transaccion, cantidad_producto, articulo, tipoPago, nro_confirmacion, plataforma_pago, cliente, preparador
+	Fields that are going to pass: id_document, initials, first_name, last_name, email, debt_amount, debt_date
+	Fields that are read only: id_document
 	"""
 	class Meta:
-		model = Venta
-		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador','notas')
+		model = Assistant
+		fields = ('id_document', 'initials','first_name','last_name','debt_amount','debt_date','email')
+		read_only_fields = ('id_document',)
+
+class AccountHistorySerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model AccountHistory.
+
+	Fields that are going to pass: date, ideal_amount_cash, ideal_amount_account, real_amount_cash,real_amount_account
+	"""
+	class Meta:
+		model = AccountHistory
+		fields = ('date','ideal_amount_cash','ideal_amount_account','real_amount_cash','real_amount_account')
+
+class AccountHistoryUpdateSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializerr update of model AccountHistory.
+
+	Fields that are going to pass: date, ideal_amount_cash, ideal_amount_account, real_amount_cash,real_amount_account
+	Fields that are read only: date
+	"""
+	class Meta:
+		model = Client
+		fields = ('date','ideal_amount_cash','ideal_amount_account','real_amount_cash','real_amount_account')
+		read_only_fields = ('date',)
+
+class BankSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model Bank
+
+	Fields that are going to pass: name,code
+	"""
+	class Meta:
+		model = Bank
+		fields = ('pk','name','code') 
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model Transaction.
+
+	Fields that are going to pass: date, amount, types
+	"""
+	class Meta:
+		model = Transaction
+		fields = ('pk','date','amount','types')
+
 
 #Serializer mixed
 
-class PreparadorDetailsSerializer(serializers.ModelSerializer):
+class AssistantDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Preparador
-		fields = ('pk','iniciales')
+		model = Assistant
+		fields = ('pk','initials')
 
-class ClienteDetailsSerializer(serializers.ModelSerializer):
+class ClientDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Cliente
-		fields = ('pk','nombre', 'apellido')
+		model = Client
+		fields = ('pk','first_name', 'last_name')
 
-class PlataformaPagoDetailsSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = PlataformaPago
-		fields = ('pk','nombre','codigo_banco')
-
-class ArticuloDetailsSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Articulo
-		fields = ('pk','nombre' )	
-
-class VentaDetailsSerializer(serializers.ModelSerializer):
+class PayMethodSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo Venta.
+	Consist in the serializer of model PayMethod
 
-	Campos que se van a pasar: id_transaccion, cantidad_producto, articulo, tipoPago, nro_confirmacion, plataforma_pago, cliente, preparador
-	"""
-	preparador = PreparadorDetailsSerializer()
-	cliente = ClienteDetailsSerializer()
-	plataforma_pago = PlataformaPagoDetailsSerializer()
-	articulo = ArticuloDetailsSerializer()
-
-	class Meta:
-		model = Venta
-		fields = ('pk','id_transaccion','cantidad_producto','articulo','tipoPago','nro_confirmacion','plataforma_pago','cliente','preparador','notas')
-
-class DeudaSerializer(serializers.ModelSerializer):
-	"""
-	Consiste en el serializer del modelo Deuda.
-
-	Campos que se van a pasar: id_transaccion, articulo, cantidad_producto, preparador
+	Fields that are going to pass: description
 	"""
 	class Meta:
-		model = Deuda
-		fields = ('pk','id_transaccion','articulo','cantidad_producto','preparador')
+		model = PayMethod
+		fields = ('description')
+		
+class BankDetailsSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Bank
+		fields = ('pk','name','code')
 
-class PagoDeudaSerializer(serializers.ModelSerializer):
+class ProductDetailsSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Product
+		fields = ('pk','name' )	
+
+class SaleSerializer(serializers.ModelSerializer):
 	"""
-	Consiste en el serializer del modelo PagoDeuda.
+	Consist in the serializer of model Sale.
 
-	Campos que se van a pasar: id_transaccion, montoDeuda, tipoPago, nro_confirmacion, plataforma_pago, fecha_pago, preparador
+	Fields that are going to pass: transaction, product_quantity, product, pay_method, confirmation_no, bank, client, assistant
+	"""
+
+	class Meta:
+		model = Sale
+		fields = ('pk','transaction','product_quantity','product','pay_method','confirmation_no','bank','client','assistant','notes')
+
+class SaleDetailsSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model Sale.
+
+	Fields that are going to pass: transaction, product_quantity, product, pay_method, confirmation_no, bank, client, assistant
+	"""
+	assistant = AssistantDetailsSerializer()
+	client = ClientDetailsSerializer()
+	pay_method = PayMethodSerializer()
+	bank = BankDetailsSerializer()
+	product = ProductDetailsSerializer()
+
+	class Meta:
+		model = Sale
+		fields = ('pk','transaction','product_quantity','product','pay_method','confirmation_no','bank','client','assistant','notes')
+
+class DebtSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model Debt.
+
+	Fields that are going to pass: transaction, product, product_quantity, assistant
 	"""
 	class Meta:
-		model = PagoDeuda
-		fields = ('pk','id_transaccion','montoDeuda','tipoPago','nro_confirmacion','plataforma_pago','fecha_pago','preparador')
+		model = Debt
+		fields = ('pk','transaction','product','product_quantity','assistant')
+
+class DebtPaymentSerializer(serializers.ModelSerializer):
+	"""
+	Consist in the serializer of model DebtPayment.
+
+	Fields that are going to pass: transaction, debt_amount, pay_method, confirmation_no, bank, pay_date, assistant
+	"""
+	class Meta:
+		model = DebtPayment
+		fields = ('pk','transaction','debt_amount','pay_method','confirmation_no','bank','pay_date','assistant')
