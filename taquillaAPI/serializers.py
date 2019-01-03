@@ -135,7 +135,7 @@ class PayMethodSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = PayMethod
-		fields = ('description',)
+		fields = ('pk','description',)
 		
 class BankDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
