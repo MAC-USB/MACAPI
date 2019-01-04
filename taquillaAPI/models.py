@@ -131,7 +131,6 @@ class Bank(models.Model):
 	"""
 
 	name = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid name')])
-	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE)
 	code = models.IntegerField(validators=[MaxValueValidator(9999)],default=0)
 	
 	def __str__(self):
