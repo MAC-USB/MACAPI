@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     path('taquilla-api/product/', views.ProductListCreate.as_view()),
     url(r'^taquilla-api/product/(?P<pk>\d+)/$',views.ProductRetrieveUpdateDestroy.as_view()),
+    path('taquilla-api/item/', views.ItemListCreate.as_view()),
+    url(r'^taquilla-api/item/(?P<pk>\d+)/$',views.ItemRetrieveUpdateDestroy.as_view()),
     path('taquilla-api/client/', views.ClientListCreate.as_view()),
     url(r'^taquilla-api/client/(?P<id_document>[-\w\d]+)/$',views.ClientRetrieveUpdateDestroy.as_view()),
     path('taquilla-api/interest/', views.InterestListCreate.as_view()),
