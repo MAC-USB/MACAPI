@@ -113,7 +113,42 @@ class DebtPaymentListCreate(generics.ListCreateAPIView):
 	queryset = DebtPayment.objects.all()
 	serializer_class = DebtPaymentSerializer
 
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'GET':
+			return DebtPaymentDetailsSerializer
+		else:
+			return DebtPaymentSerializer
+
 class DebtPaymentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	queryset = DebtPayment.objects.all()
 	serializer_class = DebtPaymentSerializer
 
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'PUT':
+			return DebtPaymentSerializer
+		else:
+			return DebtPaymentDetailsSerializer
+
+class ItemListCreate(generics.ListCreateAPIView):
+	queryset = Item.objects.all()
+	serializer_class = ItemSerializer
+
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'GET':
+			return ItemDetailsSerializer
+		else:
+			return ItemSerializer
+
+class ItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Item.objects.all()
+	serializer_class = ItemSerializer
+
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'PUT':
+			return ItemSerializer
+		else:
+			return ItemDetailsSerializer

@@ -20,10 +20,30 @@ class Product(models.Model):
 
 	def __str__(self):
     		return str(self.name)
+
+class Item(models.Model):
+	"""
 	
+	It consists of the table of products.
+
+	Parameters:
+	models.Model (Product): is the instance on which the table is created. (Articulos)
+
+	Attributes of the class:
+	Name: Name of the product.
+	Price: Price of the product.
+	"""
+	product_id = models.IntegerField()
+	product_name = models.CharField(max_length=50,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ/ ]+$',message='Invalid name')])
+	product_price = models.FloatField(default=0)
+	product_quantity = models.IntegerField(default=0)
+
+	def __str__(self):
+    		return str(self.product_name)
+
 class Client(models.Model):
 	"""
-	It consists of the table of clients.
+	It consists of the table of clients. 
 
 	Parameters:
 	models.Model (Client): is the instance on which the table is created. (Clientes)
@@ -42,7 +62,7 @@ class Client(models.Model):
     		return str(self.id_document)
 class Interest(models.Model):
 	"""
-	It consists of the table of interest.
+	It consists of the table of interest. 
 
 	Parameters:
 	models.Model (Interest): is the instance on which the table is created. (Intereses)
@@ -58,8 +78,7 @@ class Interest(models.Model):
     		return str(self.percentage)
 class Assistant(models.Model):
 	"""
-    It consists of the table of assistants.
-
+    It consists of the table of assistants. 
 	Parameters:
 	models.Model (Assistant): is the instance on which the table is created. (Preparador)
 
@@ -85,7 +104,6 @@ class Assistant(models.Model):
 class AccountHistory(models.Model):
 	"""
     It consists of the table of account history.
-
 	Parameters:
 	models.Model (AccountHistory): is the instance on which the table is created. (HistorialCuenta)
 
@@ -107,22 +125,26 @@ class AccountHistory(models.Model):
 
 class PayMethod(models.Model):
 	"""
-	It consists of the table of Pay Methods.
+	It consists of the table of Pay Methods. 
 
 	Parameters:
-	models.Model (PaYMethod): is the instance on which the table is created.
+	models.Model (PaYMethod): is the instance on which the table is created. (MetodoPago)
 
 	Attributes of the clayss:
 	description: Description about how the transaction was maked
 	"""
 	description = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid description')])
 
+	def __str__(self):
+    		return str(self.description)
+
+
 class Bank(models.Model):
 	"""
 	It consists of the table of Banks.
 
 	Parameters:
-	models.Model (Bank): is the instance on which the table is created.
+	models.Model (Bank): is the instance on which the table is created. (Banco)
 
 	Attributes of the class:
 	pay_method: Pay method of Bank
@@ -137,91 +159,110 @@ class Bank(models.Model):
     		return str(self.name)
 
 
+
+class Sale(models.Model):
+	"""
+	It's about a Transaction subclass, and consist in the sale on Taquilla 
+
+	Parameters:
+	models.Model (Sale): is the instance on which the table is created. (Venta)
+
+	Attributes of the class:
+	date: Sale date.
+	item: What product was sell, refered on item
+	client: What client buy the product
+	assistant: What assistant sell the product
+	notes: Notes about the sale
+	"""
+	date = models.DateTimeField(default=datetime.now)
+	item = models.ManyToManyField(Item)
+	client = models.ForeignKey(Client,on_delete=models.CASCADE)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
+	notes = models.CharField(max_length=60,blank=True)
+
+	def __str__(self):
+    		return str(self.date)
+
+
+
+class DebtPayment(models.Model):
+	"""
+	It's about a Transaccion subclass, and consist in payment of acumulated debt by a assistant 
+
+	Parameters:
+		models.Model (DebtPayment): is the instance on which the table is created. (PagoDeuda)
+
+	Attributes of the class:
+		pay_date : Date of paid debt.
+		assitant : Reference to the assistant.
+	"""
+	date = models.DateTimeField(default=datetime.now)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
+
+	def __str__(self):
+    		return str(self.date)
+
+class Debt(models.Model):
+	"""
+	It consists of the table of Banks. Now it's stand alone. 
+
+	Parameters:
+		models.Model (Debt): is the instance on which the table is created. (Deuda)
+
+	Attributes of the class:
+		date: Date of debt.
+		assistant: What assistant debt the product.
+		item : Reference to the requested product (item).
+		status: If a debt is pending, processing or approved.
+		debt_payment: If a debt is paid, the paid associated to this debt.
+
+	"""
+
+	PENDING = 1
+	PROCESSING = 2
+	APPROVED = 3
+	STATUS_CHOICES = (
+		(PENDING, 'pending'),
+		(PROCESSING, 'processing'),
+		(APPROVED, 'approved'),
+	)
+	date = models.DateTimeField(default=datetime.now)
+	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
+	item = models.ForeignKey(Item,on_delete=models.CASCADE)
+	status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
+	debt_payment = models.ForeignKey(DebtPayment, on_delete=models.CASCADE ,null=True)
+
+	def __str__(self):
+    		return str(self.date)
+
 class Transaction(models.Model):
 	"""
 	It consists of the table of Transaction on Taquilla.
 
 	Parameters:
-	models.Model (Transaction): is the instance on which the table is created.
+	models.Model (Transaction): is the instance on which the table is created.  (Transaccion)
 
 	Attributes of the class:
 	date: Date of Transaction
 	amount: Transaction amount
-	types: Type of the transaction (In discussion)
+	pay_method: Method to pay the transaction
+	bank: If pay_method was a bank transfer, the bank. Optional
+	reference_number : If payment made on bank transfer, the confirmation number.
+	sale: If the transaction is associated with a sale, this sale. Optional.
+	debt_payment: If the transaction is associated with a debt payment, this debt payment. Optional.
+
+
 	"""
 	date = models.DateTimeField(default=datetime.now)
-	amount = models.FloatField(default=None)
-	types = models.CharField(max_length=30,null=True,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Tipo invalido')])
+	amount = models.FloatField()
+	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE)
+	bank = models.ForeignKey(Bank, on_delete=models.CASCADE,null=True)
+	reference_number = models.IntegerField(default=0)
+	sale = models.ForeignKey(Sale, on_delete=models.CASCADE, null=True)
+	debt_payment = models.ForeignKey(DebtPayment, on_delete=models.CASCADE, null=True)
+
+
 
 	def __str__(self):
     		return str(self.date)
 
-class Sale(models.Model):
-	"""
-	It's about a Transaction subclass, and consist in the sale on Taquilla
-
-	Parameters:
-	models.Model (Sale): is the instance on which the table is created.
-
-	Attributes of the class:
-	transaction: Transaction associated to the sale
-	product_quantity: Quantity of product
-	product: What product was sell
-	pay_method: Method to pay the sale
-	bank: If pay_method was a bank transfer, the bank
-	client: What client buy the product
-	assistant: What assistant sell the product
-	notes: Notes about the sale
-	"""
-	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
-	product_quantity = models.IntegerField(default=0)
-	product = models.ForeignKey(Product,on_delete=models.CASCADE)
-	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE, default=None)
-	bank = models.ForeignKey(Bank, on_delete=models.CASCADE, default=None)
-	confirmation_no = models.IntegerField(default=None)
-	client = models.ForeignKey(Client,on_delete=models.CASCADE)
-	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
-	notes = models.CharField(max_length=60,null=True)
-
-
-class Debt(models.Model):
-	"""
-	It's about a Transaction subclass, and consist in the register debt by the assistants to acquire some product. (Deuda)
-
-	Parameters:
-		models.Model (Debt): is the instance on which the table is created.
-
-	Attributes of the class:
-		transaction : Reference to the Transaction table, the superclass.
-		product : Reference to the requested product.
-		product_quantity : Quantity of requested product.
-		assistant : Reference to the assistant.
-	"""
-	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
-	product = models.ForeignKey(Product,on_delete=models.CASCADE)
-	product_quantity = models.IntegerField(default=0)
-	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
-
-class DebtPayment(models.Model):
-	"""
-	It's about a Transaccion subclass, and consist in payment of acumulated debt by a assistant
-
-	Parameters:
-		models.Model (DebtPayment): is the instance on which the table is created.
-
-	Attributes of the class:
-		transaction : Reference to the transaction table, the superclass.
-		debt_amount : Amount of paid debt.
-		pay_method : Type of payment.
-		bank : If payment made on bank transfer, the bank.
-		confirmation_no : If payment made on bank transfer, the confirmation number.
-		pay_date : Date of paid debt.
-		assitant : Reference to the assistant.
-	"""
-	transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
-	debt_amount = models.FloatField(default=0)
-	pay_method = models.ForeignKey(PayMethod, on_delete=models.CASCADE)
-	bank = models.ForeignKey(Bank, on_delete=models.CASCADE, default=None)
-	confirmation_no = models.IntegerField(default=None)
-	pay_date = models.DateTimeField(default=datetime.now)
-	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)
