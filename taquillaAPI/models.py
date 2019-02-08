@@ -194,7 +194,7 @@ class DebtPayment(models.Model):
 
 	Attributes of the class:
 		pay_date : Date of paid debt.
-		assitant : Reference to the assistant.
+		assistant : Reference to the assistant.
 	"""
 	date = models.DateTimeField(default=datetime.now)
 	assistant = models.ForeignKey(Assistant,on_delete=models.CASCADE)

@@ -1,9 +1,14 @@
 from django.urls import path, re_path
 from django.conf.urls import url
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='MACAPI')
 
 from . import views
 
 urlpatterns = [
+    url(r'^$', schema_view),
     path('taquilla-api/product/', views.ProductListCreate.as_view()),
     url(r'^taquilla-api/product/(?P<pk>\d+)/$',views.ProductRetrieveUpdateDestroy.as_view()),
     path('taquilla-api/item/', views.ItemListCreate.as_view()),
@@ -28,5 +33,7 @@ urlpatterns = [
     url(r'^taquilla-api/debt/(?P<pk>\d+)/$',views.DebtRetrieveUpdateDestroy.as_view()),
     path('taquilla-api/debtpayment/', views.DebtPaymentListCreate.as_view()),
     url(r'^taquilla-api/debtpayment/(?P<pk>\d+)/$',views.DebtPaymentRetrieveUpdateDestroy.as_view()),
+    url(r'^taquilla-api/auth/obtain_token/', obtain_jwt_token),
+    url(r'^taquilla-api/auth/refresh_token/', refresh_jwt_token),
     
 ]

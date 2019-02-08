@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from taquillaAPI import views
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('taquillaAPI.urls')),
+
+
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
