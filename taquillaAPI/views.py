@@ -28,7 +28,7 @@ Views of Restframework
 class ProductListCreate(generics.ListCreateAPIView):
 	queryset = Product.objects.all()
 	serializer_class = ProductSerializer
-	
+
 
 class ProductRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Product.objects.all()
@@ -91,12 +91,23 @@ class PayMethodRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 class TransactionListCreate(generics.ListCreateAPIView):
 	queryset = Transaction.objects.all()
-	serializer_class = TransactionSerializer
 
-class TransactionRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'GET':
+			return getTransactionSerializer
+		else:
+			return TransactionSerializer
+
+class TransactionRetrieveUpdateDestroy(generics.RetrieveUpdateAPIView):
 	queryset = Transaction.objects.all()
-	serializer_class = TransactionSerializer
 
+	def get_serializer_class(self):
+		method = self.request.method
+		if method == 'PUT':
+			return TransactionSerializer
+		else:
+			return getTransactionSerializer
 
 class SaleListCreate(generics.ListCreateAPIView):
 	queryset = Sale.objects.all()

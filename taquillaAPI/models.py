@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Product(models.Model):
 	"""
-	
+
 	It consists of the table of products.
 
 	Parameters:
@@ -23,7 +23,7 @@ class Product(models.Model):
 
 class Item(models.Model):
 	"""
-	
+
 	It consists of the table of products.
 
 	Parameters:
@@ -43,7 +43,7 @@ class Item(models.Model):
 
 class Client(models.Model):
 	"""
-	It consists of the table of clients. 
+	It consists of the table of clients.
 
 	Parameters:
 	models.Model (Client): is the instance on which the table is created. (Clientes)
@@ -62,7 +62,7 @@ class Client(models.Model):
     		return str(self.id_document)
 class Interest(models.Model):
 	"""
-	It consists of the table of interest. 
+	It consists of the table of interest.
 
 	Parameters:
 	models.Model (Interest): is the instance on which the table is created. (Intereses)
@@ -78,7 +78,7 @@ class Interest(models.Model):
     		return str(self.percentage)
 class Assistant(models.Model):
 	"""
-    It consists of the table of assistants. 
+    It consists of the table of assistants.
 	Parameters:
 	models.Model (Assistant): is the instance on which the table is created. (Preparador)
 
@@ -125,7 +125,7 @@ class AccountHistory(models.Model):
 
 class PayMethod(models.Model):
 	"""
-	It consists of the table of Pay Methods. 
+	It consists of the table of Pay Methods.
 
 	Parameters:
 	models.Model (PaYMethod): is the instance on which the table is created. (MetodoPago)
@@ -154,7 +154,7 @@ class Bank(models.Model):
 
 	name = models.CharField(max_length=30,validators=[RegexValidator(regex='^[a-zA-Záéíóúñ ]+$',message='Invalid name')])
 	code = models.IntegerField(validators=[MaxValueValidator(9999)],default=0)
-	
+
 	def __str__(self):
     		return str(self.name)
 
@@ -162,7 +162,7 @@ class Bank(models.Model):
 
 class Sale(models.Model):
 	"""
-	It's about a Transaction subclass, and consist in the sale on Taquilla 
+	It's about a Transaction subclass, and consist in the sale on Taquilla
 
 	Parameters:
 	models.Model (Sale): is the instance on which the table is created. (Venta)
@@ -187,7 +187,7 @@ class Sale(models.Model):
 
 class DebtPayment(models.Model):
 	"""
-	It's about a Transaccion subclass, and consist in payment of acumulated debt by a assistant 
+	It's about a Transaccion subclass, and consist in payment of acumulated debt by a assistant
 
 	Parameters:
 		models.Model (DebtPayment): is the instance on which the table is created. (PagoDeuda)
@@ -204,7 +204,7 @@ class DebtPayment(models.Model):
 
 class Debt(models.Model):
 	"""
-	It consists of the table of Banks. Now it's stand alone. 
+	It consists of the table of Banks. Now it's stand alone.
 
 	Parameters:
 		models.Model (Debt): is the instance on which the table is created. (Deuda)
@@ -265,4 +265,3 @@ class Transaction(models.Model):
 
 	def __str__(self):
     		return str(self.date)
-

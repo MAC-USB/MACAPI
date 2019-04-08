@@ -101,20 +101,43 @@ class BankSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Bank
-		fields = ('pk','name','code') 
+		fields = ('pk','name','code')
 
-
-class TransactionSerializer(serializers.ModelSerializer):
+class PayMethodSerializer(serializers.ModelSerializer):
 	"""
-	Consist in the serializer of model Transaction.
+	Consist in the serializer of model PayMethod
 
-	Fields that are going to pass: date, amount, pay_method, bank,
-	reference_number, sale, debt_payment
+	Fields that are going to pass: description
 	"""
 	class Meta:
-		model = Transaction
-		fields = ('pk','date','amount','pay_method','bank', 'reference_number',
-		'sale', 'debt_payment')
+		model = PayMethod
+		fields = ('pk','description',)
+
+class getTransactionSerializer(serializers.ModelSerializer):
+    """
+    Consist in the serializer of model Transaction.
+
+    Fields that are going to pass: date, amount, pay_method, bank,
+    reference_number, sale, debt_payment
+    """
+    bank = BankSerializer(read_only=True)
+    pay_method = PayMethodSerializer(read_only=True)
+
+    class Meta:
+        model = Transaction
+        fields = ('pk','date','amount','pay_method','bank', 'reference_number', 'sale', 'debt_payment')
+
+class TransactionSerializer(serializers.ModelSerializer):
+    """
+    Consist in the serializer of model Transaction.
+
+    Fields that are going to pass: date, amount, pay_method, bank,
+    reference_number, sale, debt_payment
+    """
+
+    class Meta:
+        model = Transaction
+        fields = ('pk','date','amount','pay_method','bank', 'reference_number', 'sale', 'debt_payment')
 
 
 #Serializer mixed
@@ -129,16 +152,6 @@ class ClientDetailsSerializer(serializers.ModelSerializer):
 		model = Client
 		fields = ('id_document','first_name', 'last_name')
 
-class PayMethodSerializer(serializers.ModelSerializer):
-	"""
-	Consist in the serializer of model PayMethod
-
-	Fields that are going to pass: description
-	"""
-	class Meta:
-		model = PayMethod
-		fields = ('pk','description',)
-		
 class BankDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Bank
@@ -147,7 +160,7 @@ class BankDetailsSerializer(serializers.ModelSerializer):
 class ProductDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Product
-		fields = ('pk','name' )	
+		fields = ('pk','name' )
 
 class SaleSerializer(serializers.ModelSerializer):
 	"""
@@ -187,7 +200,7 @@ class ItemSerializer(serializers.ModelSerializer):
 	product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 	class Meta:
 		model = Item
-		fields = ('pk','product_id','product_quantity' )	
+		fields = ('pk','product_id','product_quantity' )
 
 	def create(self, validated_data):
 		product_id = validated_data['product_id']
@@ -224,7 +237,7 @@ class ItemDetailsSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = Item
-		fields = ('pk','product_id','product_name','product_price', 'product_quantity' )	
+		fields = ('pk','product_id','product_name','product_price', 'product_quantity' )
 
 class SaleDetailsSerializer(serializers.ModelSerializer):
 	"""
@@ -241,7 +254,7 @@ class SaleDetailsSerializer(serializers.ModelSerializer):
 		model = Sale
 		depth = 1
 		fields = ('pk','date','item','client','assistant','notes','transactions')
-	
+
 	def get_transactions(self,obj):
 		transactions = []
 		print(Transaction.objects.filter(sale=obj))
@@ -312,7 +325,7 @@ class DebtPaymentDetailsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = DebtPayment
 		fields = ('pk','date','assistant','transactions')
-		
+
 	def get_transactions(self,obj):
 		transactions = []
 		for transaction in Transaction.objects.filter(debt_payment=obj):
@@ -333,5 +346,3 @@ class DebtPaymentDetailsSerializer(serializers.ModelSerializer):
 			data['reference_number'] = transaction.reference_number
 			transactions.append(data)
 		return transactions
-	
-	
